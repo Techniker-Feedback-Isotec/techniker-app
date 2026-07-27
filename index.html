@@ -264,7 +264,6 @@
 
   .provision-cell{font-weight:1000;font-family:'JetBrains Mono',monospace;color:var(--c-green);white-space:nowrap;}
   .provision-cell.zero{color:var(--muted);font-weight:700;}
-  .provision-cell.negative{color:var(--c-red);}
 
   .empty{padding:18px 0;color:var(--muted);text-align:center;font-weight:800;}
 
@@ -347,6 +346,18 @@
   .rank-provision{margin-left:auto;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--c-green);font-size:12.5px;white-space:nowrap;padding-right:12px;}
   .rank-provision.zero{color:var(--muted);font-weight:700;}
   .rank-score{font-weight:1000;font-family:'JetBrains Mono',monospace;min-width:40px;text-align:right;font-size:12.5px;}
+
+  .provision-chart{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+  .provision-bar-row{display:grid;grid-template-columns:120px 1fr 82px;align-items:center;gap:10px;}
+  .provision-bar-name{font-weight:800;font-size:12.5px;color:var(--c-brown);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .provision-bar-track{background:var(--soft);border-radius:999px;height:14px;overflow:hidden;border:1px solid var(--line);}
+  .provision-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--c-green),#3FA96A);transition:width .5s ease;}
+  .provision-bar-fill.negative{background:linear-gradient(90deg,var(--c-red),#F06A6D);}
+  .provision-bar-value{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:12.5px;color:var(--c-green);text-align:right;white-space:nowrap;}
+  .provision-bar-value.negative{color:var(--c-red);}
+  @media (max-width:520px){
+    .provision-bar-row{grid-template-columns:88px 1fr 70px;}
+  }
 
   .toggle-all{
     display:flex;align-items:center;justify-content:space-between;
@@ -519,6 +530,14 @@
         <div id="all-google" class="rank-scroll"></div>
       </div>
     </div>
+
+    <div class="content-card" style="margin-top:16px;">
+      <div class="rank-block-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+        Gesamtprovision — Google + Sauberkeitsflyer
+      </div>
+      <div id="top3-provision-chart" class="provision-chart"></div>
+    </div>
   </div>
 </main>
 
@@ -678,7 +697,63 @@
   }
 
   function formatEuro(n){
-    return n.toLocaleString('de-DE') + ' €';
+    const sign = n < 0 ? '-' : '';
+    return sign + Math.abs(n).toLocaleString('de-DE') + ' €';
+  }
+
+  function initials(name){
+    return name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase();
+  }
+
+  // --- Foto-Einbindung mit Initialen-Fallback ---
+  // Fotos liegen im Repo unter fotos/<Mitarbeitername>.<ext>. Es wird der Reihe nach
+  // .jpg, .jpeg und .png versucht; schlaegt alles fehl, werden die Initialen angezeigt.
+  const PHOTO_BASE = 'fotos/';
+  const PHOTO_EXTS = ['jpg', 'jpeg', 'png'];
+
+  function slugifyName(name){
+    // Entspricht der Namenskonvention aus dem Rollout-Plan:
+    // Kleinbuchstaben, Leerzeichen -> Bindestrich, Umlaute ausgeschrieben (ue/oe/ae/ss)
+    return name
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+      .replace(/\s+/g, '-');
+  }
+
+  function photoCandidates(name){
+    const slug = slugifyName(name);
+    const encodedOriginal = encodeURIComponent(name.trim().replace(/\s+/g, ' '));
+    const bases = [...new Set([slug, encodedOriginal])];
+    const candidates = [];
+    bases.forEach(base => {
+      PHOTO_EXTS.forEach(ext => candidates.push(PHOTO_BASE + base + '.' + ext));
+    });
+    return candidates;
+  }
+
+  function avatarHtml(name){
+    const candidates = photoCandidates(name);
+    const fallback = initials(name);
+    const first = candidates[0];
+    const joined = candidates.join('|');
+    return '<img src="' + first + '" alt="' + name + '" data-fallback-idx="0" data-candidates="' + joined + '" data-initials="' + fallback + '" onerror="handleAvatarError(this)" style="width:100%;height:100%;object-fit:cover;border-radius:999px;">';
+  }
+
+  function handleAvatarError(img){
+    const candidates = (img.getAttribute('data-candidates') || '').split('|').filter(Boolean);
+    let idx = parseInt(img.getAttribute('data-fallback-idx') || '0', 10) + 1;
+    if(idx < candidates.length){
+      img.setAttribute('data-fallback-idx', String(idx));
+      img.src = candidates[idx];
+    } else {
+      const initialsText = img.getAttribute('data-initials') || '';
+      const span = document.createElement('div');
+      span.textContent = initialsText;
+      span.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:JetBrains Mono, monospace;color:var(--muted);background:var(--soft);border-radius:999px;';
+      img.replaceWith(span);
+    }
   }
 
   function renderMeine(){
@@ -790,61 +865,6 @@
       return entries.slice(0, n).map(([name, count]) => ({name, count, total: totalsMap ? (totalsMap[name]||0) : null}));
     }
 
-    function initials(name){
-      return name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase();
-    }
-
-    // --- Foto-Einbindung mit Initialen-Fallback ---
-    // Fotos liegen im Repo unter fotos/<Mitarbeitername>.<ext>. Es wird der Reihe nach
-    // .jpg, .jpeg und .png versucht; schlaegt alles fehl, werden die Initialen angezeigt.
-    const PHOTO_BASE = 'fotos/';
-    const PHOTO_EXTS = ['jpg', 'jpeg', 'png'];
-
-    function slugifyName(name){
-      // Entspricht der Namenskonvention aus dem Rollout-Plan:
-      // Kleinbuchstaben, Leerzeichen -> Bindestrich, Umlaute ausgeschrieben (ue/oe/ae/ss)
-      return name
-        .trim()
-        .replace(/\s+/g, ' ')
-        .toLowerCase()
-        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
-        .replace(/\s+/g, '-');
-    }
-
-    function photoCandidates(name){
-      const slug = slugifyName(name);
-      const encodedOriginal = encodeURIComponent(name.trim().replace(/\s+/g, ' '));
-      const bases = [...new Set([slug, encodedOriginal])];
-      const candidates = [];
-      bases.forEach(base => {
-        PHOTO_EXTS.forEach(ext => candidates.push(PHOTO_BASE + base + '.' + ext));
-      });
-      return candidates;
-    }
-
-    function avatarHtml(name){
-      const candidates = photoCandidates(name);
-      const fallback = initials(name);
-      const first = candidates[0];
-      const joined = candidates.join('|');
-      return '<img src="' + first + '" alt="' + name + '" data-fallback-idx="0" data-candidates="' + joined + '" data-initials="' + fallback + '" onerror="handleAvatarError(this)" style="width:100%;height:100%;object-fit:cover;border-radius:999px;">';
-    }
-
-    function handleAvatarError(img){
-      const candidates = (img.getAttribute('data-candidates') || '').split('|').filter(Boolean);
-      let idx = parseInt(img.getAttribute('data-fallback-idx') || '0', 10) + 1;
-      if(idx < candidates.length){
-        img.setAttribute('data-fallback-idx', String(idx));
-        img.src = candidates[idx];
-      } else {
-        const initialsText = img.getAttribute('data-initials') || '';
-        const span = document.createElement('div');
-        span.textContent = initialsText;
-        span.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:JetBrains Mono, monospace;color:var(--muted);background:var(--soft);border-radius:999px;';
-        img.replaceWith(span);
-      }
-    }
-
     const medalLabels = ['1', '2', '3'];
     const medalClasses = ['gold', 'silver', 'bronze'];
 
@@ -928,6 +948,32 @@
           <div class="rank-score">${count}×</div>
         </div>`;
       }).join('') || '<div class="empty">Keine weiteren Techniker.</div>';
+
+    const totalProvision = {};
+    allNames.forEach(n => {
+      totalProvision[n] = (flyerProvision[n] || 0) + (googleProvision[n] || 0);
+    });
+    const provisionEntries = Object.entries(totalProvision)
+      .filter(([, sum]) => sum !== 0)
+      .sort((a, b) => b[1] - a[1]);
+
+    const chartEl = document.getElementById('top3-provision-chart');
+    if(provisionEntries.length === 0){
+      chartEl.innerHTML = '<div class="empty">Keine Provisionsdaten im gewählten Zeitraum.</div>';
+    } else {
+      const maxVal = Math.max(...provisionEntries.map(([, v]) => Math.abs(v)));
+      chartEl.innerHTML = provisionEntries.map(([name, sum]) => {
+        const pct = maxVal > 0 ? Math.max(4, Math.round((Math.abs(sum) / maxVal) * 100)) : 0;
+        const negative = sum < 0;
+        return `<div class="provision-bar-row">
+          <div class="provision-bar-name">${name}</div>
+          <div class="provision-bar-track">
+            <div class="provision-bar-fill${negative ? ' negative' : ''}" style="width:${pct}%;"></div>
+          </div>
+          <div class="provision-bar-value${negative ? ' negative' : ''}">${formatEuro(sum)}</div>
+        </div>`;
+      }).join('');
+    }
   }
   function toggleAll(which){
     const btn = document.getElementById('toggle-' + which);
