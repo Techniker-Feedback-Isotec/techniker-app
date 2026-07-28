@@ -349,15 +349,87 @@
   .rank-score{font-weight:1000;font-family:'JetBrains Mono',monospace;min-width:40px;text-align:right;font-size:12.5px;}
 
   .provision-chart{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
-  .provision-bar-row{display:grid;grid-template-columns:120px 1fr 82px;align-items:center;gap:10px;}
+  .provision-bar-row{display:grid;grid-template-columns:34px 1fr 82px;align-items:center;gap:10px;padding:6px 0;}
+  .provision-bar-rank{color:var(--muted);font-weight:1000;font-family:'JetBrains Mono',monospace;font-size:12px;text-align:center;}
   .provision-bar-name{font-weight:800;font-size:12.5px;color:var(--c-brown);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .provision-bar-track{background:var(--soft);border-radius:999px;height:14px;overflow:hidden;border:1px solid var(--line);}
   .provision-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--c-green),#3FA96A);transition:width .5s ease;}
   .provision-bar-fill.negative{background:linear-gradient(90deg,var(--c-red),#F06A6D);}
+  .provision-bar-fill.neutral{background:linear-gradient(90deg,#9A9284,#C3BCB1);}
   .provision-bar-value{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:12.5px;color:var(--c-green);text-align:right;white-space:nowrap;}
   .provision-bar-value.negative{color:var(--c-red);}
   @media (max-width:520px){
-    .provision-bar-row{grid-template-columns:88px 1fr 70px;}
+    .provision-bar-row{grid-template-columns:26px 1fr 70px;}
+  }
+  .provision-list{display:flex;flex-direction:column;gap:2px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+
+  /* Provision podium (top 3) */
+  .provision-podium{display:flex;flex-direction:column;gap:10px;}
+  .provision-podium-slot{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 14px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:var(--soft);
+    position:relative;
+    overflow:hidden;
+  }
+  .provision-podium-slot.p1{
+    background:linear-gradient(90deg, rgba(255,205,60,0.22), rgba(255,205,60,0.04));
+    border-color:rgba(214,168,32,0.55);
+    order:1;
+    padding:18px 16px;
+  }
+  .provision-podium-slot.p2{
+    background:linear-gradient(90deg, rgba(180,190,200,0.22), rgba(180,190,200,0.04));
+    border-color:rgba(150,160,170,0.5);
+    order:2;
+    padding:13px 14px;
+  }
+  .provision-podium-slot.p3{
+    background:linear-gradient(90deg, rgba(205,140,90,0.18), rgba(205,140,90,0.03));
+    border-color:rgba(180,120,75,0.5);
+    order:3;
+    padding:10px 12px;
+  }
+  .provision-podium-medal{
+    width:34px;height:34px;border-radius:999px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-weight:1000;font-size:15px;
+    color:#fff;
+  }
+  .provision-podium-slot.p1 .provision-podium-medal{width:40px;height:40px;font-size:17px;background:#D6A820;box-shadow:0 3px 10px rgba(214,168,32,0.35);}
+  .provision-podium-slot.p2 .provision-podium-medal{width:32px;height:32px;font-size:14px;background:#9CA6AF;box-shadow:0 3px 10px rgba(156,166,175,0.35);}
+  .provision-podium-slot.p3 .provision-podium-medal{width:28px;height:28px;font-size:13px;background:#B4794A;box-shadow:0 3px 10px rgba(180,121,74,0.35);}
+  .provision-podium-avatar{
+    width:104px;height:104px;border-radius:999px;flex-shrink:0;
+    overflow:hidden;background:#fff;border:2px solid #fff;
+  }
+  .provision-podium-slot.p1 .provision-podium-avatar{width:136px;height:136px;box-shadow:0 0 0 3px #D6A820;}
+  .provision-podium-slot.p2 .provision-podium-avatar{width:112px;height:112px;box-shadow:0 0 0 3px #9CA6AF;}
+  .provision-podium-slot.p3 .provision-podium-avatar{width:96px;height:96px;box-shadow:0 0 0 3px #B4794A;}
+  .provision-podium-info{flex:1;min-width:0;}
+  .provision-podium-name{font-weight:1000;color:var(--c-brown);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .provision-podium-slot.p1 .provision-podium-name{font-size:18px;}
+  .provision-podium-slot.p2 .provision-podium-name{font-size:15px;}
+  .provision-podium-slot.p3 .provision-podium-name{font-size:13.5px;}
+  .provision-podium-label{color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+  .provision-podium-value{
+    font-family:'JetBrains Mono',monospace;font-weight:1000;color:var(--c-green);white-space:nowrap;flex-shrink:0;
+  }
+  .provision-podium-slot.p1 .provision-podium-value{font-size:22px;}
+  .provision-podium-slot.p2 .provision-podium-value{font-size:17px;}
+  .provision-podium-slot.p3 .provision-podium-value{font-size:15px;}
+  .provision-podium-value.negative{color:var(--c-red);}
+  @media(min-width:640px){
+    .provision-podium{flex-direction:row;align-items:flex-end;gap:12px;}
+    .provision-podium-slot{flex-direction:column;text-align:center;flex:1;}
+    .provision-podium-slot.p1{order:2;padding-top:14px;padding-bottom:26px;}
+    .provision-podium-slot.p2{order:1;padding-bottom:16px;}
+    .provision-podium-slot.p3{order:3;padding-bottom:10px;}
+    .provision-podium-info{width:100%;}
+    .provision-podium-name{white-space:normal;}
+    .provision-podium-value{margin-top:2px;}
   }
 
   .toggle-all{
@@ -518,7 +590,15 @@
       </div>
     </div>
 
-    <div class="top3" style="margin-top:12px;">
+    <div class="content-card" style="margin-top:12px;">
+      <div class="rank-block-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+        Gesamtprovision — Google + Sauberkeitsflyer
+      </div>
+      <div id="top3-provision-chart" class="provision-chart"></div>
+    </div>
+
+    <div class="top3" style="margin-top:16px;">
       <div class="content-card">
         <div class="rank-block-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -543,14 +623,6 @@
         </button>
         <div id="all-google" class="rank-scroll"></div>
       </div>
-    </div>
-
-    <div class="content-card" style="margin-top:16px;">
-      <div class="rank-block-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
-        Gesamtprovision — Google + Sauberkeitsflyer
-      </div>
-      <div id="top3-provision-chart" class="provision-chart"></div>
     </div>
   </div>
 </main>
@@ -964,18 +1036,40 @@
     if(provisionEntries.length === 0){
       chartEl.innerHTML = '<div class="empty">Keine Provisionsdaten im gewählten Zeitraum.</div>';
     } else {
-      const maxVal = Math.max(...provisionEntries.map(([, v]) => Math.abs(v)));
-      chartEl.innerHTML = provisionEntries.map(([name, sum]) => {
-        const pct = maxVal > 0 ? Math.max(4, Math.round((Math.abs(sum) / maxVal) * 100)) : 0;
+      const top3 = provisionEntries.slice(0, 3);
+      const rest = provisionEntries.slice(3);
+      const medalClasses = ['p1', 'p2', 'p3'];
+      const medalLabels = ['1', '2', '3'];
+
+      const podiumHtml = top3.map(([name, sum], i) => {
         const negative = sum < 0;
-        return `<div class="provision-bar-row">
-          <div class="provision-bar-name">${name}</div>
-          <div class="provision-bar-track">
-            <div class="provision-bar-fill${negative ? ' negative' : ''}" style="width:${pct}%;"></div>
+        return `<div class="provision-podium-slot ${medalClasses[i]}">
+          <div class="provision-podium-medal">${medalLabels[i]}</div>
+          <div class="provision-podium-avatar">${avatarHtml(name)}</div>
+          <div class="provision-podium-info">
+            <div class="provision-podium-name">${name}</div>
+            <div class="provision-podium-label">Gesamtprovision</div>
           </div>
-          <div class="provision-bar-value${negative ? ' negative' : ''}">${formatEuro(sum)}</div>
+          <div class="provision-podium-value${negative ? ' negative' : ''}">${formatEuro(sum)}</div>
         </div>`;
       }).join('');
+
+      const maxRest = rest.length ? Math.max(...rest.map(([, v]) => Math.abs(v))) : 0;
+      const listHtml = rest.length ? '<div class="provision-list">' + rest.map(([name, sum], idx) => {
+        const i = idx + 4;
+        const pct = maxRest > 0 ? Math.max(4, Math.round((Math.abs(sum) / maxRest) * 100)) : 0;
+        const negative = sum < 0;
+        return `<div class="provision-bar-row">
+          <div class="provision-bar-rank">${i}</div>
+          <div class="provision-bar-name">${name}</div>
+          <div class="provision-bar-value${negative ? ' negative' : ''}" style="text-align:left;">${formatEuro(sum)}</div>
+        </div>
+        <div class="provision-bar-track" style="margin:-4px 0 6px 44px;">
+          <div class="provision-bar-fill${negative ? ' negative' : ' neutral'}" style="width:${pct}%;"></div>
+        </div>`;
+      }).join('') + '</div>' : '';
+
+      chartEl.innerHTML = '<div class="provision-podium">' + podiumHtml + '</div>' + listHtml;
     }
   }
   function toggleAll(which){
