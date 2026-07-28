@@ -262,6 +262,7 @@
   }
   .detail-cell{display:flex;flex-direction:column;gap:2px;font-size:11px;color:var(--muted);font-weight:800;white-space:nowrap;}
   .detail-cell span.dv{margin-left:4px;}
+  span.name-highlight{background:#DCF3E3;color:var(--c-green);border-radius:4px;padding:0 3px;font-weight:700;}
 
   .provision-cell{font-weight:1000;font-family:'JetBrains Mono',monospace;color:var(--c-green);white-space:nowrap;}
   .provision-cell.zero{color:var(--muted);font-weight:700;}
@@ -780,6 +781,22 @@
     return name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase();
   }
 
+  function escapeRegExp(s){
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Hebt die namentliche Erwaehnung des Technikers im Google-Text hell-gruen hervor.
+  // Erkennt vollen Namen sowie Vor- und Nachname einzeln (z.B. "Herr Kamberi").
+  function highlightNames(text, mitarbeiterName){
+    if(!text || !mitarbeiterName) return text || '';
+    const parts = mitarbeiterName.trim().split(/\s+/).filter(p => p.length > 1);
+    const needles = [mitarbeiterName.trim(), ...parts];
+    const uniqueNeedles = [...new Set(needles)].sort((a, b) => b.length - a.length);
+    if(uniqueNeedles.length === 0) return text;
+    const pattern = new RegExp('(' + uniqueNeedles.map(escapeRegExp).join('|') + ')', 'gi');
+    return text.replace(pattern, '<span class="name-highlight">$1</span>');
+  }
+
   // --- Foto-Einbindung mit Initialen-Fallback ---
   // Fotos liegen im Repo unter fotos/<Mitarbeitername>.<ext>. Es wird der Reihe nach
   // .jpg, .jpeg und .png versucht; schlaegt alles fehl, werden die Initialen angezeigt.
@@ -870,7 +887,7 @@
     tbody.innerHTML = sorted.map(r => {
       const typClass = r.Typ === 'Sauberkeitsflyer (Keine Abgabe)' ? 'type-flyer-none' : (r.Typ === 'Sauberkeitsflyer' ? 'type-flyer' : 'type-google');
       const bewertung = r.Typ === 'Sauberkeitsflyer' ? scoreBadge(r.Gesamtbewertung) : '<span class="score-badge">–</span>';
-      const text = r.Typ === 'Sauberkeitsflyer' ? (r.Bemerkungen || '–') : (r['Google-Text'] || '–');
+      const text = r.Typ === 'Sauberkeitsflyer' ? (r.Bemerkungen || '–') : highlightNames(r['Google-Text'] || '–', r.Mitarbeiter);
       const prov = r.Provision || 0;
       const provClass = prov > 0 ? 'provision-cell' : (prov < 0 ? 'provision-cell negative' : 'provision-cell zero');
       const provTxt = prov !== 0 ? formatEuro(prov) : '–';
