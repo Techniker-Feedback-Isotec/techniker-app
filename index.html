@@ -432,6 +432,46 @@
     .provision-podium-name{white-space:normal;}
     .provision-podium-value{margin-top:2px;}
   }
+  /* Auf schmalen Bildschirmen (iPhone) wie die kompakten Ranking-Zeilen darstellen,
+     damit Avatar/Name/Betrag nicht ueberlappen. */
+  @media(max-width:639px){
+    .provision-podium-slot,
+    .provision-podium-slot.p1,
+    .provision-podium-slot.p2,
+    .provision-podium-slot.p3{
+      flex-direction:row;
+      align-items:center;
+      text-align:left;
+      gap:12px;
+      padding:10px 12px;
+    }
+    .provision-podium-medal,
+    .provision-podium-slot.p1 .provision-podium-medal,
+    .provision-podium-slot.p2 .provision-podium-medal,
+    .provision-podium-slot.p3 .provision-podium-medal{
+      width:26px;height:26px;font-size:12.5px;
+    }
+    .provision-podium-avatar,
+    .provision-podium-slot.p1 .provision-podium-avatar,
+    .provision-podium-slot.p2 .provision-podium-avatar,
+    .provision-podium-slot.p3 .provision-podium-avatar{
+      width:38px;height:38px;
+    }
+    .provision-podium-info{width:auto;flex:1;min-width:0;}
+    .provision-podium-name,
+    .provision-podium-slot.p1 .provision-podium-name,
+    .provision-podium-slot.p2 .provision-podium-name,
+    .provision-podium-slot.p3 .provision-podium-name{
+      font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .provision-podium-label{font-size:10px;margin-top:1px;}
+    .provision-podium-value,
+    .provision-podium-slot.p1 .provision-podium-value,
+    .provision-podium-slot.p2 .provision-podium-value,
+    .provision-podium-slot.p3 .provision-podium-value{
+      font-size:13px;margin-top:0;
+    }
+  }
 
   .toggle-all{
     display:flex;align-items:center;justify-content:space-between;
