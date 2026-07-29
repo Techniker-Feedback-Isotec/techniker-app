@@ -530,7 +530,7 @@
     <img class="logo" alt="ISOTEC" id="logo" />
 
     <div class="top-right">
-      <div class="user-badge">Angemeldet als <strong id="current-user-name">–</strong></div>
+      <div class="user-badge">Angemeldet als <strong id="current-user-name">�</strong></div>
       <button class="logout" onclick="logout()">Abmelden</button>
     </div>
   </div>
@@ -574,8 +574,8 @@
         <div class="hint">Einsätze im Zeitraum</div>
       </div>
       <div class="kpi">
-        <div class="lbl">Ø Gesamtbewertung</div>
-        <div class="val" id="kpi-avg-score">–</div>
+        <div class="lbl">� Gesamtbewertung</div>
+        <div class="val" id="kpi-avg-score">�</div>
         <div class="hint">1 = beste Note</div>
       </div>
       <div class="kpi">
@@ -590,7 +590,7 @@
       </div>
       <div class="kpi kpi-provision">
         <div class="lbl">Provision</div>
-        <div class="val" id="kpi-provision-sum">0 €</div>
+        <div class="val" id="kpi-provision-sum">0 �</div>
         <div class="hint">Summe im Zeitraum</div>
       </div>
     </div>
@@ -621,7 +621,7 @@
     <div class="section-head">
       <div>
         <h2>Ranking</h2>
-        <div class="sub">Über alle Techniker, im gewählten Zeitraum</div>
+        <div class="sub">�ber alle Techniker, im gewählten Zeitraum</div>
       </div>
       <div class="chips" id="period-filter-ranking">
         <button class="chip active" data-period="month">Dieser Monat</button>
@@ -634,7 +634,7 @@
     <div class="content-card" style="margin-top:12px;">
       <div class="rank-block-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
-        Gesamtprovision — Google + Sauberkeitsflyer
+        Gesamtprovision � Google + Sauberkeitsflyer
       </div>
       <div id="top3-provision-chart" class="provision-chart"></div>
     </div>
@@ -643,7 +643,7 @@
       <div class="content-card">
         <div class="rank-block-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          Sauberkeitsflyer — Note 1
+          Sauberkeitsflyer � Note 1
         </div>
         <div id="top3-flyer"></div>
         <button class="toggle-all" id="toggle-flyer" onclick="toggleAll('flyer')">
@@ -670,7 +670,600 @@
 
 <script>
   // eslint-disable
-  const RAW_DATA = [{"Mitarbeiter": "Zenin Cholakov;#82;#Mohammad Sharifi;#83", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Christa Grusczka", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Zenit Cholakov Shaarifi Ihre Leute waren einfach super. Sehr sauber gearbeitet. Wir kommen immer wieder Danke\nChrista Grusczka", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Alban Deliu;#78;#Rrahman Tasholli;#80", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Erika Schwengers", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Herr Tasholli Herr Deliu Sauber und freundlich", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Valbon  Kamberi;#79;#Shkodran  Salihu;#81", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Jonas Bönisch", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Der Kontakt zu ISOTEC und die Terminfindung liefen problemlos. Herr Salihu und Herr Kamberi waren sehr kompetent und haben äußerst sauber gearbeitet. Vor den Arbeiten wurde der gesamte Fußboden abgeklebt, nach den Arbeiten wurde gesaugt und alles sauber gewischt. So sollte Handwerk laufen!", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Valbon  Kamberi;#79", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Andreas M.", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Die Firma Isotec hat bei uns den Keller abgedichtet. Der Mitarbeiter bei uns vor Ort, war sehr nett und hat alles schnell und sauber erledigt. Ein Dank geht an Herrn Kamberi. Kann man blind weiterempfehlen.", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Zenin Cholakov;#82;#Mohammad Sharifi;#83", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Sabine Schneider", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Zenin Cholakov Uno Sharifi haben hervorragende Arbeit geleistet. Sie haben eine saubere und ordentliche Baustelle hinterlassen und waren immer sehr freundlich.", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Alban Deliu;#78", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Astrid Bexkens", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Hallo, wir hatten diese Woche die Firma Isotec bei uns. Wir sind hell auf begeistert von der Arbeit. Der Mitarbeiter Herr Alban Deliu hat sehr gute Arbeit geleistet. Es wurde alles sauber hinterlassen. Wir können diese Firma mit gutem Gewissen weiter empfehlen. Von uns gibt es 5 Sterne.", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Edmond Gjonaj;#74", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Leon Ciolek", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Herzlichen Dank an ISOTEC an Mike Alsdorf, für die schnelle Hilfe. Besonderen Dank gilt Herrn Edmond Gjonaj, der bei den heißen Temperaturen/Wetter durchgehalten hat und seine Arbeit sehr gut gemacht hat und alles sauber verlassen hat. Fam. Ciolek aus Oberhausen P.s. Alle Arbeiter haben super Leistung gezeigt. 👍", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Rrahman Tasholli;#80", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Ajana", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Ich habe einen Teil des Kellers abdichten lassen, da seit Jahren immer wieder Wasser durch unzureichend abgedichteten Wand-Sohlen-Bereich eingedrungen ist. Sehr ordentliche, saubere Arbeit. Der Mitarbeiter Rahman Tasholli war immer pünktlich und sehr freundlich. Ob es wirklich dicht ist, wird sich natürlich erst noch zeigen müssen, aber angesichts der sehr ordentlich ausgeführten Arbeit bin ich da zuversichtlich", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Valbon  Kamberi;#79;#Shkodran  Salihu;#81", "Datum": "2026-07-20", "Art": "Google", "Kunde": "Martin Gehring", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Die Arbeiten wurden von Herrn Salihu und Herrn Kamberi (der am ersten Tag bei der Einrichtung der Baustelle unterstützt hat) schnell ausgeführt. Es wurde sehr sauber gearbeitet, alle im Zimmer verbliebenen Möbel und Gegenstände wurden abgeklebt und so gegen Schmutz geschützt. Auch die Laufwege wurden mit Flies abgelegt und nach Beendigung der Arbeiten durchgewischt. Ob die Arbeiten den gewünschten Erfolg bringen, kann ich natürlich jetzt noch nicht einschätzen. Ich hoffe, dass das Ziel, den Schimmel aus der Wohnung zu halten, erreicht wird und ich dauerhaft Ruhe habe", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Niko Pepa;#75;#Markeljan Becurri;#76", "Datum": "2026-07-17", "Art": "Sauberkeitsflyer", "Kunde": "Kröhnke, Mülheim", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Ja", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Alban Deliu;#78", "Datum": "2026-07-17", "Art": "Sauberkeitsflyer", "Kunde": "Biebighäuser, Krefeld", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Nein", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Mustafa Duygun;#25", "Datum": "2026-07-17", "Art": "Sauberkeitsflyer (Keine Abgabe)", "Kunde": "Gatzmanga, Krefeld", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": -25}, {"Mitarbeiter": "Rrahman Tasholli;#80", "Datum": "2026-07-17", "Art": "Sauberkeitsflyer", "Kunde": "Thomas Nickel, Essen", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Ja", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Shkodran  Salihu;#81;#Valbon  Kamberi;#79;#Xholian Bajrami;#73", "Datum": "2026-07-17", "Art": "Sauberkeitsflyer", "Kunde": "Metz / Feldmühlen Immob. Geb 02", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Zenin Cholakov;#82;#Mohammad Sharifi;#83", "Datum": "2026-07-16", "Art": "Sauberkeitsflyer", "Kunde": "Schneider, Hohenzollernstr. 55, 47802 Krefeld", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Ja", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Valon  Krasniqi;#36;#Edmond Gjonaj;#74;#Niko Pepa;#75;#Markeljan Becurri;#76", "Datum": "2026-07-15", "Art": "Sauberkeitsflyer", "Kunde": "Schomann, Willich", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Alban Deliu;#78", "Datum": "2026-07-15", "Art": "Google", "Kunde": "Hr. Hamann, Duisburg", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Schnelle und einfache Kommunikation. Immer hilfsbereit und erklärt auch gerne Vorgehen und Material @Alban Deliv und Mike Alsdorf", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Valbon  Kamberi;#79", "Datum": "2026-07-15", "Art": "Sauberkeitsflyer", "Kunde": "Andreas Malchow, Wesel", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Zenin Cholakov;#82;#Mohammad Sharifi;#83", "Datum": "2026-07-14", "Art": "Sauberkeitsflyer", "Kunde": "Helldobler, Dinslaken", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Mustafa Duygun;#25", "Datum": "2026-07-13", "Art": "Sauberkeitsflyer", "Kunde": "Hr. Schorn, Duisburg", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Nein", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Alban Deliu;#78;#Rrahman Tasholli;#80", "Datum": "2026-07-13", "Art": "Sauberkeitsflyer", "Kunde": "Fr. Schwengers, Willich", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Ja", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Valbon  Kamberi;#79;#Shkodran  Salihu;#81", "Datum": "2026-07-13", "Art": "Sauberkeitsflyer", "Kunde": "Wehling, Moers", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "John Herich;#77;#Alban Deliu;#78;#Rrahman Tasholli;#80", "Datum": "2026-07-09", "Art": "Sauberkeitsflyer", "Kunde": "Iris Feldermann, Mülheim", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Nein", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Valbon  Kamberi;#79;#Shkodran  Salihu;#81", "Datum": "2026-07-09", "Art": "Google", "Kunde": "Fr. Mühleis, Duisburg", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": null, "Gesamtbewertung": null, "Bemerkungen": null, "Google-Text": "Sehr empfehlenswert,sauberes schnelles arbeiten von Herrn Salihu und Kamberi.Freundlich unf kompetent.", "Sterne": 5, "Provision": 50}, {"Mitarbeiter": "Valon  Krasniqi;#36;#Edmond Gjonaj;#74;#Niko Pepa;#75;#Markeljan Becurri;#76", "Datum": "2026-07-09", "Art": "Sauberkeitsflyer", "Kunde": "Hr. Herrig, Schwalmtal", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Nein", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Valbon  Kamberi;#79", "Datum": "2026-07-08", "Art": "Sauberkeitsflyer", "Kunde": "Hr. Baetzgen, Kempen", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Nein", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "Xholian Bajrami;#73;#Edmond Gjonaj;#74", "Datum": "2026-07-07", "Art": "Sauberkeitsflyer", "Kunde": "Hr. Sebastian Schäfer, Willich", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Keine Angabe", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}, {"Mitarbeiter": "John Herich;#77;#Alban Deliu;#78", "Datum": "2026-07-01", "Art": "Sauberkeitsflyer", "Kunde": "Fr. Quack (Hr. Gottmanns), Mönchengladbach", "Objektadresse": null, "Sauberkeit": null, "Kommunikation": null, "Zuverlässigkeit": null, "Referenz": "Ja", "Gesamtbewertung": 1, "Bemerkungen": null, "Google-Text": null, "Sterne": null, "Provision": 25}];
+  const RAW_DATA = [
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-01",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Fr. Quack (Hr. Gottmanns), Mönchengladbach",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-07",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Hr. Sebastian Schäfer, Willich",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-08",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Hr. Baetzgen, Kempen",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-09",
+    "Mitarbeiter": "[object Object],[object Object],[object Object]",
+    "Kunde": "Iris Feldermann, Mülheim",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-09",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Fr. Mühleis, Duisburg",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Sehr empfehlenswert,sauberes schnelles arbeiten von Herrn Salihu und Kamberi.Freundlich unf kompetent.",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-09",
+    "Mitarbeiter": "[object Object],[object Object],[object Object],[object Object]",
+    "Kunde": "Hr. Herrig, Schwalmtal",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-13",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Hr. Schorn, Duisburg",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-13",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Fr. Schwengers, Willich",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-13",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Wehling, Moers",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-14",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Helldobler, Dinslaken",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-15",
+    "Mitarbeiter": "[object Object],[object Object],[object Object],[object Object]",
+    "Kunde": "Schomann, Willich",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-15",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Hr. Hamann, Duisburg",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Schnelle und einfache Kommunikation. Immer hilfsbereit und erklärt auch gerne Vorgehen und Material @Alban Deliv und Mike Alsdorf",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-17",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Kröhnke, Mülheim",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-17",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Biebighäuser, Krefeld",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer (Keine Abgabe)",
+    "Datum": "2026-07-17",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Gatzmanga, Krefeld",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": -25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-16",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Schneider, Hohenzollernstr. 55, 47802 Krefeld",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-17",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Thomas Nickel, Essen",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-17",
+    "Mitarbeiter": "[object Object],[object Object],[object Object]",
+    "Kunde": "Metz / Feldmühlen Immob. Geb 02",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-15",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Andreas Malchow, Wesel",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Christa Grusczka",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Zenit Cholakov Shaarifi Ihre Leute waren einfach super. Sehr sauber gearbeitet. Wir kommen immer wieder Danke\nChrista Grusczka",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Erika Schwengers",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Herr Tasholli Herr Deliu Sauber und freundlich",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Jonas Bönisch",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Der Kontakt zu ISOTEC und die Terminfindung liefen problemlos. Herr Salihu und Herr Kamberi waren sehr kompetent und haben äu�erst sauber gearbeitet. Vor den Arbeiten wurde der gesamte Fu�boden abgeklebt, nach den Arbeiten wurde gesaugt und alles sauber gewischt. So sollte Handwerk laufen!",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Andreas M.",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Die Firma Isotec hat bei uns den Keller abgedichtet. Der Mitarbeiter bei uns vor Ort, war sehr nett und hat alles schnell und sauber erledigt. Ein Dank geht an Herrn Kamberi. Kann man blind weiterempfehlen.",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Sabine Schneider",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Zenin Cholakov Uno Sharifi haben hervorragende Arbeit geleistet. Sie haben eine saubere und ordentliche Baustelle hinterlassen und waren immer sehr freundlich.",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Astrid Bexkens",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Hallo, wir hatten diese Woche die Firma Isotec bei uns. Wir sind hell auf begeistert von der Arbeit. Der Mitarbeiter Herr Alban Deliu hat sehr gute Arbeit geleistet. Es wurde alles sauber hinterlassen. Wir können diese Firma mit gutem Gewissen weiter empfehlen. Von uns gibt es 5 Sterne.",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Leon Ciolek",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Herzlichen Dank an ISOTEC an Mike Alsdorf, für die schnelle Hilfe. Besonderen Dank gilt Herrn Edmond Gjonaj, der bei den hei�en Temperaturen/Wetter durchgehalten hat und seine Arbeit sehr gut gemacht hat und alles sauber verlassen hat. Fam. Ciolek aus Oberhausen P.s. Alle Arbeiter haben super Leistung gezeigt. �",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Ajana",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Ich habe einen Teil des Kellers abdichten lassen, da seit Jahren immer wieder Wasser durch unzureichend abgedichteten Wand-Sohlen-Bereich eingedrungen ist. Sehr ordentliche, saubere Arbeit. Der Mitarbeiter Rahman Tasholli war immer pünktlich und sehr freundlich. Ob es wirklich dicht ist, wird sich natürlich erst noch zeigen müssen, aber angesichts der sehr ordentlich ausgeführten Arbeit bin ich da zuversichtlich",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-20",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Martin Gehring",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Die Arbeiten wurden von Herrn Salihu und Herrn Kamberi (der am ersten Tag bei der Einrichtung der Baustelle unterstützt hat) schnell ausgeführt. Es wurde sehr sauber gearbeitet, alle im Zimmer verbliebenen Möbel und Gegenstände wurden abgeklebt und so gegen Schmutz geschützt. Auch die Laufwege wurden mit Flies abgelegt und nach Beendigung der Arbeiten durchgewischt. Ob die Arbeiten den gewünschten Erfolg bringen, kann ich natürlich jetzt noch nicht einschätzen. Ich hoffe, dass das Ziel, den Schimmel aus der Wohnung zu halten, erreicht wird und ich dauerhaft Ruhe habe",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-21",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Astrid Biebighäuser, Krefeld",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-24",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Eva-Maria Hermanns, Krefeld",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-24",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Karsten Stierenkamp, Duisburg",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-27",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Knot Moers",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Ja",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-27",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Edgar Spickenbaum, Oberhausen",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-22",
+    "Mitarbeiter": "[object Object],[object Object],[object Object]",
+    "Kunde": "Leske / Baselmann, Moers",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Nein",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-23",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Heinz Herrmanns",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Die Arbeiten wurden wunschgemä� und bestens durch die Mitarbeiter des Unternehmens Isotec Herr Cholakov in Charifli durchgeführt. Beste und einwandfreie, sowie saubere Arbeit! Herzlichen Dank Heinz Hermanns",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Google",
+    "Datum": "2026-07-24",
+    "Mitarbeiter": "[object Object],[object Object]",
+    "Kunde": "Tim S.",
+    "Gesamtbewertung": null,
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": null,
+    "Bemerkungen": null,
+    "Google-Text": "Tolle Arbeit und ein super Gefühl! Danke an das ganze Team! Wir haben unseren Keller von innen abdichten lassen, weil wir Probleme mit Feuchtigkeit und Schimmel hatten. Wenn man selbst kein Handwerker ist, hat man bei so was natürlich erst mal Bedenken. Aber bei Isotec haben wir uns direkt gut aufgehoben gefühlt. Herr Manaz war super nett, kam für die Begutachtung vorbei und hat uns alles ehrlich und verständlich erklärt. Es ging alles sehr schnell und wir haben völlig unkompliziert einen passenden Termin gefunden. Vor Ort lief es genauso gut. Vor dem Start wurde alles gründlich abgeklebt und über die ganzen Tage hinweg extrem sauber gearbeitet. Ein gro�es Dankeschön auch an Herrn Salihu und Herrn Kamberi! Die beiden machen nicht nur fachlich einen super Job, sondern sind auch super sympathisch. Sie waren immer pünktlich, sehr freundlich und extrem ordentlich. Rundum eine richtig gute Erfahrung, die ich wirklich nur weiterempfehlen kann.",
+    "Sterne": 5,
+    "Provision": 50,
+    "Objektadresse": null
+  },
+  {
+    "Art": "Sauberkeitsflyer",
+    "Datum": "2026-07-28",
+    "Mitarbeiter": "[object Object]",
+    "Kunde": "Annika Haidvogl, Issum",
+    "Gesamtbewertung": "1",
+    "Sauberkeit": null,
+    "Kommunikation": null,
+    "Zuverlässigkeit": null,
+    "Referenz": "Keine Angabe",
+    "Bemerkungen": null,
+    "Google-Text": null,
+    "Sterne": null,
+    "Provision": 25,
+    "Objektadresse": null
+  }
+];
   // --- Datennormalisierung ---
   // Macht die App robust gegenüber Datenquellen, in denen:
   //  - die Spalte "Typ" stattdessen "Art" heisst
@@ -734,7 +1327,7 @@
     document.querySelector('header.top').style.display = 'flex';
     document.getElementById('main-nav').style.display = 'flex';
     document.getElementById('current-user-name').textContent = currentUser;
-    document.getElementById('meine-title').textContent = 'Meine Bewertungen — ' + currentUser.split(' ')[0];
+    document.getElementById('meine-title').textContent = 'Meine Bewertungen � ' + currentUser.split(' ')[0];
     document.getElementById('meine-avatar').innerHTML = avatarHtml(currentUser);
     document.getElementById('tab-top3').style.display = 'none';
     document.getElementById('tab-meine').style.display = 'block';
@@ -801,20 +1394,20 @@
   }
 
   function scoreBadge(score){
-    if(score === null || score === undefined) return '<span class="score-badge">–</span>';
+    if(score === null || score === undefined) return '<span class="score-badge">�</span>';
     const s = Math.round(score);
     const cls = 'score-' + s;
     return `<span class="score-badge ${cls}">${s}</span>`;
   }
 
   function scoreSubtle(score){
-    if(score === null || score === undefined) return '–';
+    if(score === null || score === undefined) return '�';
     return Math.round(score);
   }
 
   function formatEuro(n){
     const sign = n < 0 ? '-' : '';
-    return sign + Math.abs(n).toLocaleString('de-DE') + ' €';
+    return sign + Math.abs(n).toLocaleString('de-DE') + ' �';
   }
 
   function initials(name){
@@ -850,7 +1443,7 @@
       .trim()
       .replace(/\s+/g, ' ')
       .toLowerCase()
-      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/�/g, 'ss')
       .replace(/\s+/g, '-');
   }
 
@@ -904,7 +1497,7 @@
     document.getElementById('kpi-flyer-count').textContent = flyer.length;
     document.getElementById('kpi-google-count').textContent = google.length;
     const avgScoreEl = document.getElementById('kpi-avg-score');
-    avgScoreEl.textContent = avg !== null ? avg.toFixed(2) : '–';
+    avgScoreEl.textContent = avg !== null ? avg.toFixed(2) : '�';
     avgScoreEl.classList.remove('score-green', 'score-yellow', 'score-red');
     if(avg !== null){
       if(avg <= 1) avgScoreEl.classList.add('score-green');
@@ -926,11 +1519,11 @@
 
     tbody.innerHTML = sorted.map(r => {
       const typClass = r.Typ === 'Sauberkeitsflyer (Keine Abgabe)' ? 'type-flyer-none' : (r.Typ === 'Sauberkeitsflyer' ? 'type-flyer' : 'type-google');
-      const bewertung = r.Typ === 'Sauberkeitsflyer' ? scoreBadge(r.Gesamtbewertung) : '<span class="score-badge">–</span>';
-      const text = r.Typ === 'Sauberkeitsflyer' ? (r.Bemerkungen || '–') : highlightNames(r['Google-Text'] || '–', r.Mitarbeiter);
+      const bewertung = r.Typ === 'Sauberkeitsflyer' ? scoreBadge(r.Gesamtbewertung) : '<span class="score-badge">�</span>';
+      const text = r.Typ === 'Sauberkeitsflyer' ? (r.Bemerkungen || '�') : highlightNames(r['Google-Text'] || '�', r.Mitarbeiter);
       const prov = r.Provision || 0;
       const provClass = prov > 0 ? 'provision-cell' : (prov < 0 ? 'provision-cell negative' : 'provision-cell zero');
-      const provTxt = prov !== 0 ? formatEuro(prov) : '–';
+      const provTxt = prov !== 0 ? formatEuro(prov) : '�';
 
       let details = '';
       if(r.Typ === 'Sauberkeitsflyer'){
@@ -940,14 +1533,14 @@
           <span>Zuverlässigkeit <span class="dv">${scoreSubtle(r.Zuverlässigkeit)}</span></span>
         </div>`;
       } else {
-        const sterne = r.Sterne !== null && r.Sterne !== undefined ? `${r.Sterne} ★` : '–';
+        const sterne = r.Sterne !== null && r.Sterne !== undefined ? `${r.Sterne} �` : '�';
         details = `<div class="detail-cell"><span>${sterne}</span></div>`;
       }
 
       return `<tr>
         <td class="mono">${formatDate(r.Datum)}</td>
         <td><span class="type-pill ${typClass}">${r.Typ}</span></td>
-        <td>${r.Kunde || '–'}</td>
+        <td>${r.Kunde || '�'}</td>
         <td>${bewertung}</td>
         <td>${details}</td>
         <td><span class="${provClass}">${provTxt}</span></td>
@@ -1006,9 +1599,9 @@
         if(!item){
           return `<div class="podium-slot ${medalClasses[i]}">
             <div class="podium-rank">${medalLabels[i]}</div>
-            <div class="podium-avatar">–</div>
+            <div class="podium-avatar">�</div>
             <div class="podium-info">
-              <div class="podium-name">–</div>
+              <div class="podium-name">�</div>
               <div class="podium-meta">Kein Eintrag</div>
             </div>
           </div>`;
@@ -1023,7 +1616,7 @@
           </div>
           <div class="podium-right">
             <div class="podium-provision${prov > 0 ? '' : ' zero'}">${formatEuro(prov)}</div>
-            <div class="podium-score">${item.count}×</div>
+            <div class="podium-score">${item.count}�</div>
           </div>
         </div>`;
       });
@@ -1061,7 +1654,7 @@
             <div class="rank-meta">${total} Flyer gesamt</div>
           </div>
           <div class="rank-provision${prov > 0 ? '' : ' zero'}">${formatEuro(prov)}</div>
-          <div class="rank-score">${count}×</div>
+          <div class="rank-score">${count}�</div>
         </div>`;
       }).join('') || '<div class="empty">Keine weiteren Techniker.</div>';
 
@@ -1077,7 +1670,7 @@
             <div class="rank-meta">Google-Bewertungen</div>
           </div>
           <div class="rank-provision${prov > 0 ? '' : ' zero'}">${formatEuro(prov)}</div>
-          <div class="rank-score">${count}×</div>
+          <div class="rank-score">${count}�</div>
         </div>`;
       }).join('') || '<div class="empty">Keine weiteren Techniker.</div>';
 
