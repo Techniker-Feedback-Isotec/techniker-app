@@ -503,7 +503,46 @@
   .rank-scroll .rank-row{padding:7px 0;}
   .rank-scroll .rank-num{color:var(--muted);font-weight:800;}
 
-  /* Reduce motion */
+  /* Feed */
+      .feed-list{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+      .feed-card{
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding:14px;
+        display:flex;
+        gap:14px;
+        align-items:flex-start;
+        transition:box-shadow .15s ease, transform .15s ease;
+      }
+      .feed-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.06);transform:translateY(-1px);}
+      .feed-card.is-google{border-left:4px solid #1D5FA8;}
+      .feed-card.is-flyer{border-left:4px solid var(--c-green);}
+      .feed-card.is-none{border-left:4px solid var(--c-red);}
+      .feed-avatars{display:flex;flex-shrink:0;padding-left:12px;}
+      .feed-avatar{
+        width:46px;height:46px;border-radius:999px;overflow:hidden;
+        border:2px solid #fff;box-shadow:0 0 0 1px var(--line);
+        margin-left:-12px;background:var(--soft);flex-shrink:0;
+      }
+      .feed-body{flex:1;min-width:0;}
+      .feed-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+      .feed-names{font-weight:1000;font-size:14px;color:var(--c-brown);}
+      .feed-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:5px;}
+      .feed-date{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);font-weight:800;}
+      .feed-kunde{font-size:12.5px;color:var(--muted);font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+      .feed-text{
+        margin-top:10px;font-size:13px;line-height:1.5;color:var(--c-brown);
+        background:var(--soft);border-radius:12px;padding:10px 12px;
+      }
+      .feed-stars{color:#D6A820;font-size:13px;letter-spacing:1px;}
+      .feed-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+      @media(max-width:560px){
+        .feed-card{flex-direction:column;gap:10px;}
+        .feed-right{flex-direction:row;align-items:center;gap:10px;}
+      }
+    
+      /* Reduce motion */
   @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
 </style>
 </head>
@@ -548,9 +587,9 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
           Meine
         </button>
-        <button class="nav-item" id="nav-letzte" onclick="switchTab('letzte')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          Letzte
+        <button class="nav-item" id="nav-feed" onclick="switchTab('feed')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          Feed
         </button>
       </div>
     </nav>
@@ -672,33 +711,21 @@
       </div>
     </div>
   </div>
-  <div id="tab-letzte" class="section" style="display:none;">
+  <div id="tab-feed" class="section" style="display:none;">
         <div class="section-head">
           <div>
-            <h2>Letzte Bewertungen</h2>
-            <div class="sub">Alle Einträge, neueste zuerst</div>
+            <h2>Feed</h2>
+            <div class="sub">Alle Bewertungen und Sauberkeitsflyer, neueste zuerst</div>
+          </div>
+          <div class="chips" id="feed-filter">
+            <button class="chip active" data-feed="all">Alle</button>
+            <button class="chip" data-feed="Google">Google</button>
+            <button class="chip" data-feed="Sauberkeitsflyer">Flyer</button>
           </div>
         </div>
     
-        <div class="content-card" style="margin-top:12px;">
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:100px;">Datum</th>
-                  <th style="width:130px;">Typ</th>
-                  <th style="width:180px;">Mitarbeiter</th>
-                  <th style="width:170px;">Kunde</th>
-                  <th style="width:70px;">Gesamt</th>
-                  <th style="width:90px;">Provision</th>
-                  <th style="min-width:280px;">Bemerkung / Google-Text</th>
-                </tr>
-              </thead>
-              <tbody id="letzte-table-body"></tbody>
-            </table>
-          </div>
-          <div id="letzte-empty" class="empty" style="display:none;">Keine Einträge vorhanden.</div>
-        </div>
+        <div id="feed-list" class="feed-list"></div>
+        <div id="feed-empty" class="empty" style="display:none;">Keine Einträge vorhanden.</div>
       </div>
     
     </main>
@@ -745,6 +772,7 @@
   let currentUser = null;
   let activePeriod = 'month';
   let activeRankingPeriod = 'month';
+  let activeFeedFilter = 'all';
 
   // Embed logo
   const logoSrc = 'Logo-ISOTEC_cmyk-coated%20(3).jpg';
@@ -781,12 +809,12 @@
         document.getElementById('main-nav').style.display = 'none';
         document.getElementById('tab-meine').style.display = 'none';
         document.getElementById('tab-top3').style.display = 'none';
-        document.getElementById('tab-letzte').style.display = 'none';
+        document.getElementById('tab-feed').style.display = 'none';
         document.getElementById('user-select').selectedIndex = 0;
       }
 
   function switchTab(tab){
-        ['top3', 'meine', 'letzte'].forEach(t => {
+        ['top3', 'meine', 'feed'].forEach(t => {
           const panel = document.getElementById('tab-' + t);
           if(panel) panel.style.display = (t === tab) ? 'block' : 'none';
           const nav = document.getElementById('nav-' + t);
@@ -795,7 +823,7 @@
     
         if(tab === 'meine') renderMeine();
         if(tab === 'top3') renderTop3();
-        if(tab === 'letzte') renderLetzte();
+        if(tab === 'feed') renderFeed();
       }
 
   document.querySelectorAll('#period-filter .chip').forEach(btn => {
@@ -816,7 +844,16 @@
     });
   });
 
-  function inPeriod(dateStr, period){
+  document.querySelectorAll('#feed-filter .chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#feed-filter .chip').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFeedFilter = btn.dataset.feed;
+          renderFeed();
+        });
+      });
+    
+      function inPeriod(dateStr, period){
     const d = new Date(dateStr + 'T00:00:00');
     if(period === 'all') return true;
     if(period === 'month') return d.getFullYear() === NOW.getFullYear() && d.getMonth() === NOW.getMonth();
@@ -1162,39 +1199,64 @@
       chartEl.innerHTML = '<div class="provision-podium">' + podiumHtml + '</div>' + listHtml;
     }
   }
-  function renderLetzte(){
+  function renderFeed(){
+        const listEl = document.getElementById('feed-list');
+        const emptyEl = document.getElementById('feed-empty');
+    
         const rows = RAW_DATA
           .map(r => Object.assign({}, r, { Typ: r.Typ || r.Art }))
+          .filter(r => activeFeedFilter === 'all' || (r.Typ || '').indexOf(activeFeedFilter) === 0)
           .sort((a, b) => new Date(b.Datum + 'T00:00:00') - new Date(a.Datum + 'T00:00:00'));
     
-        const tbody = document.getElementById('letzte-table-body');
-        const emptyEl = document.getElementById('letzte-empty');
-    
         if(rows.length === 0){
-          tbody.innerHTML = '';
+          listEl.innerHTML = '';
           emptyEl.style.display = 'block';
           return;
         }
         emptyEl.style.display = 'none';
     
-        tbody.innerHTML = rows.map(r => {
-          const typClass = r.Typ === 'Sauberkeitsflyer (Keine Abgabe)' ? 'type-flyer-none' : (r.Typ === 'Sauberkeitsflyer' ? 'type-flyer' : 'type-google');
-          const bewertung = r.Typ === 'Sauberkeitsflyer' ? scoreBadge(r.Gesamtbewertung) : '<span class="score-badge">–</span>';
-          const text = r.Typ === 'Sauberkeitsflyer' ? (r.Bemerkungen || '–') : (r['Google-Text'] || '–');
+        listEl.innerHTML = rows.map(r => {
+          const isNone = r.Typ === 'Sauberkeitsflyer (Keine Abgabe)';
+          const isFlyer = r.Typ === 'Sauberkeitsflyer';
+          const cardClass = isNone ? 'is-none' : (isFlyer ? 'is-flyer' : 'is-google');
+          const typClass = isNone ? 'type-flyer-none' : (isFlyer ? 'type-flyer' : 'type-google');
+    
+          const namen = splitMitarbeiter(r.Mitarbeiter);
+          const avatars = namen.slice(0, 4).map(n =>
+            `<div class="feed-avatar" title="${n}">${avatarHtml(n)}</div>`
+          ).join('');
+    
           const prov = r.Provision || 0;
           const provClass = prov > 0 ? 'provision-cell' : (prov < 0 ? 'provision-cell negative' : 'provision-cell zero');
           const provTxt = prov !== 0 ? formatEuro(prov) : '–';
-          const namen = splitMitarbeiter(r.Mitarbeiter).join(', ') || '–';
     
-          return `<tr>
-            <td class="mono">${formatDate(r.Datum)}</td>
-            <td><span class="type-pill ${typClass}">${r.Typ}</span></td>
-            <td>${namen}</td>
-            <td>${r.Kunde || '–'}</td>
-            <td>${bewertung}</td>
-            <td><span class="${provClass}">${provTxt}</span></td>
-            <td>${text}</td>
-          </tr>`;
+          const rawText = (isFlyer || isNone) ? r.Bemerkungen : r['Google-Text'];
+          const textHtml = rawText
+            ? `<div class="feed-text">${highlightNames(rawText, namen[0] || '')}</div>`
+            : '';
+    
+          const badge = (isFlyer || isNone)
+            ? scoreBadge(r.Gesamtbewertung)
+            : (r.Sterne ? `<span class="feed-stars">${'★'.repeat(r.Sterne)}</span>` : '');
+    
+          return `<div class="feed-card ${cardClass}">
+            <div class="feed-avatars">${avatars}</div>
+            <div class="feed-body">
+              <div class="feed-top">
+                <span class="type-pill ${typClass}">${r.Typ}</span>
+                <span class="feed-names">${namen.join(', ') || '–'}</span>
+              </div>
+              <div class="feed-meta">
+                <span class="feed-date">${formatDate(r.Datum)}</span>
+                <span class="feed-kunde">${r.Kunde || '–'}</span>
+              </div>
+              ${textHtml}
+            </div>
+            <div class="feed-right">
+              <span class="${provClass}">${provTxt}</span>
+              ${badge}
+            </div>
+          </div>`;
         }).join('');
       }
 
