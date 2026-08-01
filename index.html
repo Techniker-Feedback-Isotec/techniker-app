@@ -910,6 +910,7 @@
   // --- Foto-Einbindung mit Initialen-Fallback ---
   // Fotos liegen im Repo unter fotos/<Mitarbeitername>.<ext>. Es wird der Reihe nach
   // .jpg, .jpeg und .png versucht; schlaegt alles fehl, werden die Initialen angezeigt.
+  const PHOTO_MAP = {"albandeliu": "fotos/Alban%20Deliu.jpg", "edmondgjonaj": "fotos/Edmond%20Gjonaj.png", "johnherich": "fotos/John%20Herich.png", "markeljanbecurri": "fotos/Markeljan%20Becurri.png", "mohammadsharifi": "fotos/Mohammad%20Sharifi.jpg", "mustafaduygun": "fotos/Mustafa%20Duygun.png", "nikopepa": "fotos/Niko%20Pepa.png", "rrahmantasholli": "fotos/Rrahman%20Tasholli.jpg", "shkodransalihu": "fotos/Shkodran%20Salihu.png", "valbonkamberi": "fotos/Valbon%20Kamberi.png", "valonkrasniqi": "fotos/Valon%20Krasniqi.png", "xholianbajrami": "fotos/Xholian%20Bajrami.png", "zenincholakov": "fotos/Zenin%20Cholakov.jpg"};
   const PHOTO_BASE = 'fotos/';
   const PHOTO_EXTS = ['jpg', 'jpeg', 'png'];
 
@@ -925,15 +926,24 @@
   }
 
   function photoCandidates(name){
-    const slug = slugifyName(name);
-    const encodedOriginal = encodeURIComponent(name.trim().replace(/\s+/g, ' '));
-    const bases = [...new Set([slug, encodedOriginal])];
-    const candidates = [];
-    bases.forEach(base => {
-      PHOTO_EXTS.forEach(ext => candidates.push(PHOTO_BASE + base + '.' + ext));
-    });
-    return candidates;
-  }
+        const candidates = [];
+        const key = String(name || '')
+          .trim()
+          .toLowerCase()
+          .replace(/\u00e4/g, 'ae').replace(/\u00f6/g, 'oe').replace(/\u00fc/g, 'ue').replace(/\u00df/g, 'ss')
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]/g, '');
+    
+        if(PHOTO_MAP[key]) candidates.push(PHOTO_MAP[key]);
+    
+        const slug = slugifyName(name);
+        const encodedOriginal = encodeURIComponent(name.trim().replace(/\s+/g, ' '));
+        [...new Set([slug, encodedOriginal])].forEach(base => {
+          PHOTO_EXTS.forEach(ext => candidates.push(PHOTO_BASE + base + '.' + ext));
+        });
+    
+        return [...new Set(candidates)];
+      }
 
   function avatarHtml(name){
     const candidates = photoCandidates(name);
