@@ -542,6 +542,36 @@
         .feed-right{flex-direction:row;align-items:center;gap:10px;}
       }
     
+      /* Mobile-Fixes */
+      html, body{max-width:100%;overflow-x:hidden;}
+      header.top{height:auto;min-height:64px;padding:8px 12px;}
+      .top-inner{flex-wrap:wrap;row-gap:6px;}
+      .top-right{flex-wrap:wrap;row-gap:6px;justify-content:flex-end;}
+      nav.bottom{position:sticky;top:0;height:auto;display:flex;}
+      .bottom-inner{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px 12px;}
+      .bottom-inner::-webkit-scrollbar{display:none;}
+      main{max-width:100%;}
+      .section-head{max-width:100%;}
+      @media(max-width:720px){
+        header.top{position:static;}
+        nav.bottom{top:0;}
+        .top-inner{justify-content:center;gap:8px;}
+        .logo{height:26px;}
+        .top-right{width:100%;justify-content:space-between;margin-left:0;}
+        .user-badge{font-size:11.5px;gap:4px;}
+        .logout{padding:7px 10px;font-size:11.5px;white-space:nowrap;}
+        .nav-item{padding:9px 12px;font-size:12px;}
+        .nav-item svg{width:17px;height:17px;}
+        main{padding:14px 12px 32px;}
+        .section-head{padding:12px;}
+        .section-head h2{font-size:15px;}
+        #meine-avatar{width:60px !important;height:60px !important;}
+      }
+      @media(max-width:420px){
+        .nav-item{padding:8px 10px;}
+        .kpi .val{font-size:22px;}
+      }
+    
       /* Reduce motion */
   @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
 </style>
@@ -555,7 +585,7 @@
     </div>
     <h1>ISOTEC Techniker-Bewertungen</h1>
     <p>Bitte wähle deinen Namen aus, um deine Bewertungen zu sehen.</p>
-    <div id="last-update-login" style="text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:-10px 0 16px;">Letzte Aktualisierung: 01.08.2026</div>
+    <div id="last-update-login" style="text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:-10px 0 16px;">Letzte Aktualisierung: 02.08.2026</div>
 
     <div id="user-picker" style="margin-top:6px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-weight:1000;margin:0 0 6px;">Techniker auswählen</div>
@@ -570,7 +600,7 @@
     <img class="logo" alt="ISOTEC" id="logo" />
 
     <div class="top-right">
-      <div class="user-badge">Letzte Aktualisierung: <strong id="last-update-top">01.08.2026</strong></div>
+      <div class="user-badge">Letzte Aktualisierung: <strong id="last-update-top">02.08.2026</strong></div>
       <div class="user-badge">Angemeldet als <strong id="current-user-name">–</strong></div>
       <button class="logout" onclick="logout()">Abmelden</button>
     </div>
@@ -910,7 +940,7 @@
   // --- Foto-Einbindung mit Initialen-Fallback ---
   // Fotos liegen im Repo unter fotos/<Mitarbeitername>.<ext>. Es wird der Reihe nach
   // .jpg, .jpeg und .png versucht; schlaegt alles fehl, werden die Initialen angezeigt.
-  const PHOTO_MAP = {"albandeliu": "fotos/Alban%20Deliu.jpg", "edmondgjonaj": "fotos/Edmond%20Gjonaj.png", "johnherich": "fotos/John%20Herich.png", "markeljanbecurri": "fotos/Markeljan%20Becurri.png", "mohammadsharifi": "fotos/Mohammad%20Sharifi.jpg", "mustafaduygun": "fotos/Mustafa%20Duygun.png", "nikopepa": "fotos/Niko%20Pepa.png", "rrahmantasholli": "fotos/Rrahman%20Tasholli.jpg", "shkodransalihu": "fotos/Shkodran%20Salihu.png", "valbonkamberi": "fotos/Valbon%20Kamberi.png", "valonkrasniqi": "fotos/Valon%20Krasniqi.png", "xholianbajrami": "fotos/Xholian%20Bajrami.png", "zenincholakov": "fotos/Zenin%20Cholakov.jpg"};
+  const PHOTO_MAP = {"albandeliu": "fotos/Alban%20Deliu.jpg", "dzevitveliji": "fotos/Dzevit%20Veliji", "edmondgjonaj": "fotos/Edmond%20Gjonaj.png", "johnherich": "fotos/John%20Herich.png", "markeljanbecurri": "fotos/Markeljan%20Becurri.png", "mohammadsharifi": "fotos/Mohammad%20Sharifi.jpg", "mustafaduygun": "fotos/Mustafa%20Duygun.png", "nikopepa": "fotos/Niko%20Pepa.png", "rrahmantasholli": "fotos/Rrahman%20Tasholli.jpg", "shkodransalihu": "fotos/Shkodran%20Salihu.png", "valbonkamberi": "fotos/Valbon%20Kamberi.png", "valonkrasniqi": "fotos/Valon%20Krasniqi.png", "xholianbajrami": "fotos/Xholian%20Bajrami.png", "zenincholakov": "fotos/Zenin%20Cholakov.jpg"};
   const PHOTO_BASE = 'fotos/';
   const PHOTO_EXTS = ['jpg', 'jpeg', 'png'];
 
@@ -940,6 +970,7 @@
         const encodedOriginal = encodeURIComponent(name.trim().replace(/\s+/g, ' '));
         [...new Set([slug, encodedOriginal])].forEach(base => {
           PHOTO_EXTS.forEach(ext => candidates.push(PHOTO_BASE + base + '.' + ext));
+          candidates.push(PHOTO_BASE + base);
         });
     
         return [...new Set(candidates)];
