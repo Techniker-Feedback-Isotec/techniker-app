@@ -585,7 +585,7 @@
     </div>
     <h1>ISOTEC Techniker-Bewertungen</h1>
     <p>Bitte wähle deinen Namen aus, um deine Bewertungen zu sehen.</p>
-    <div id="last-update-login" style="text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:-10px 0 16px;">Letzte Aktualisierung: 03.08.2026</div>
+    <div id="last-update-login" style="text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:-10px 0 16px;">Letzte Aktualisierung: 05.08.2026</div>
 
     <div id="user-picker" style="margin-top:6px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-weight:1000;margin:0 0 6px;">Techniker auswählen</div>
@@ -600,7 +600,7 @@
     <img class="logo" alt="ISOTEC" id="logo" />
 
     <div class="top-right">
-      <div class="user-badge">Letzte Aktualisierung: <strong id="last-update-top">03.08.2026</strong></div>
+      <div class="user-badge">Letzte Aktualisierung: <strong id="last-update-top">05.08.2026</strong></div>
       <div class="user-badge">Angemeldet als <strong id="current-user-name">–</strong></div>
       <button class="logout" onclick="logout()">Abmelden</button>
     </div>
@@ -1091,7 +1091,7 @@
       if(r.Typ === 'Sauberkeitsflyer' && r.Gesamtbewertung === 1){
         flyerNote1Counts[r.Mitarbeiter] = (flyerNote1Counts[r.Mitarbeiter] || 0) + 1;
       }
-      if(r.Typ === 'Sauberkeitsflyer'){
+      if(r.Typ === 'Sauberkeitsflyer' || r.Typ === 'Sauberkeitsflyer (Keine Abgabe)'){
         flyerProvision[r.Mitarbeiter] = (flyerProvision[r.Mitarbeiter] || 0) + (r.Provision || 0);
       }
       if(r.Typ === 'Google'){
