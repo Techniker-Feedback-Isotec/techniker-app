@@ -801,7 +801,6 @@
   const NOW = new Date();
   let currentUser = null;
   let activePeriod = 'month';
-  let activeRankingPeriod = 'month';
   let activeFeedFilter = 'all';
 
   // Embed logo
@@ -856,23 +855,18 @@
         if(tab === 'feed') renderFeed();
       }
 
-  document.querySelectorAll('#period-filter .chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#period-filter .chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activePeriod = btn.dataset.period;
-      renderMeine();
-    });
-  });
-
-  document.querySelectorAll('#period-filter-ranking .chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#period-filter-ranking .chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeRankingPeriod = btn.dataset.period;
-      renderTop3();
-    });
-  });
+    function setActivePeriod(period){
+        activePeriod = period;
+        document.querySelectorAll('#period-filter .chip, #period-filter-ranking .chip').forEach(b => {
+          b.classList.toggle('active', b.dataset.period === period);
+        });
+        renderMeine();
+        renderTop3();
+      }
+    
+      document.querySelectorAll('#period-filter .chip, #period-filter-ranking .chip').forEach(btn => {
+        btn.addEventListener('click', () => setActivePeriod(btn.dataset.period));
+      });
 
   document.querySelectorAll('#feed-filter .chip').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1000,6 +994,7 @@
   }
 
   function renderMeine(){
+    document.querySelectorAll('#period-filter .chip').forEach(b => b.classList.toggle('active', b.dataset.period === activePeriod));
     if(!currentUser) return;
 
     const rows = DATA.filter(d => d.Mitarbeiter === currentUser && inPeriod(d.Datum, activePeriod));
@@ -1068,7 +1063,8 @@
   }
 
   function renderTop3(){
-    const rankingRows = DATA.filter(d => inPeriod(d.Datum, activeRankingPeriod));
+    document.querySelectorAll('#period-filter-ranking .chip').forEach(b => b.classList.toggle('active', b.dataset.period === activePeriod));
+    const rankingRows = DATA.filter(d => inPeriod(d.Datum, activePeriod));
     const allNames = [...new Set(DATA.map(d => d.Mitarbeiter))].sort();
     const flyerNote1Counts = {};
     const googleCounts = {};
